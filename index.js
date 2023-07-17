@@ -20,7 +20,9 @@ app.post("/api", function(req, res) {
 
   if (!body.name && !body.email && !body.prompt) {
     console.log("damn");
-    throw new Error("name, email or prompt missing");
+    res
+      .status(400)
+      .json({ message: "Mandatory field: name, email, or body is missing. " })
   }
 
   mintSimulator(body.name, body.email, body.prompt)
@@ -30,7 +32,9 @@ app.post("/api", function(req, res) {
       );
     })
     .catch(() => {
-      throw new Error("name, email or prompt missing");
+      res
+      .status(400)
+      .json({ message: "Unknown error." })
     });
 });
 
