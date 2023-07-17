@@ -1,0 +1,22 @@
+{
+  "name": "alexa-skill",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mint.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tatumio/api-client": "^2.2.18",
+    "@tatumio/flow": "^2.2.18",
+    "@tatumio/tatum": "^1.37.34",
+    "@web-std/file": "^3.0.2",
+    "ethers": "^6.6.3",
+    "moralis": "^2.22.4",
+    "web3.storage": "^4.5.4"
+  }
+}
+
