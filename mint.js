@@ -6,16 +6,16 @@ import dotenv from "dotenv";
 import SibApiV3Sdk from "sib-api-v3-sdk"
 dotenv.config();
 
-runSimulator();
+// runSimulator();
 
-async function runSimulator() {
-    const name = "Sarthak Vaish";
-    const emailId = `sarthakvaish184@gmail.com`;
-    const prompt = `HI, This is a first NFT I minted. How is it?`;
-    console.time("Simulator")
-    await mintSimulator(name, emailId, prompt);
-    console.timeEnd("Simulator")
-}
+// async function runSimulator() {
+//     const name = "Sarthak Vaish";
+//     const emailId = `sarthakvaish184@gmail.com`;
+//     const prompt = `HI, This is a first NFT I minted. How is it?`;
+//     console.time("Simulator")
+//     await mintSimulator(name, emailId, prompt);
+//     console.timeEnd("Simulator")
+// }
 
 const TatumApi = process.env["TATUM_API"];
 
@@ -37,7 +37,7 @@ export async function mintSimulator(name, emailId, prompt) {
 async function sendMail(emailId, imageUrl, txHash, name) {
     let txUrl = `https://testnet.flowscan.org/transaction/${txHash}`
 
-    SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
+    SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
 
     new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
     {
