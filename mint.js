@@ -1,17 +1,20 @@
+import fetch from "node-fetch"
 import { Currency } from "@tatumio/api-client";
 import { TatumFlowSDK } from "@tatumio/flow";
 import Moralis from "moralis";
 import dotenv from "dotenv";
+import SibApiV3Sdk from "sib-api-v3-sdk"
 dotenv.config();
 
 runSimulator();
 
 async function runSimulator() {
-    const name = "Damn Boi";
-    const emailId = `check@xyz`;
-    const prompt = `hehe`;
-
+    const name = "Sarthak Vaish";
+    const emailId = `sarthakvaish184@gmail.com`;
+    const prompt = `HI, This is a first NFT I minted. How is it?`;
+    console.time("Simulator")
     await mintSimulator(name, emailId, prompt);
+    console.timeEnd("Simulator")
 }
 
 const TatumApi = process.env["TATUM_API"];
@@ -22,22 +25,33 @@ const flowSDK = TatumFlowSDK({
 });
 
 export async function mintSimulator(name, emailId, prompt) {
-    const imageUrl = await createImage(name, prompt, emailId);
+    const imageUrl = await createImage(name, emailId, prompt);
     console.log(imageUrl);
     const uri = await formURI(imageUrl);
     console.log(uri);
     const txHash = await nftMint(uri);
     console.log(txHash);
-    // await sendMail(emailId, url, txHash)
+    await sendMail(emailId, imageUrl, txHash, name)
 }
 
-async function sendMail(emailId, url, txHash) {
+async function sendMail(emailId, imageUrl, txHash, name) {
     let txUrl = `https://testnet.flowscan.org/transaction/${txHash}`
 
-    let body = `There's a new NFT in your hand.
-    Check transaction hash : ${txUrl}
-    ${url}`;
-    // send mail
+    SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
+
+    new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+    {
+        'sender' : {'email':'glenxbuilders@gmail.com', 'name':'Sarthak Vaish'},
+        'to' : [{'email': emailId, 'name':name}],
+        'params' : {'nft_link':imageUrl, "name": "Sarthak Singhal", "txUrl": txUrl},
+        "attachment": [{"url": imageUrl,"name": "nft.png"}],
+        "templateId": 3
+    }
+    ).then(function(data) {
+        console.log(data);
+    }, function(error) {
+        console.error(error);
+    });
 }
 
 async function nftMint(metadata) {
