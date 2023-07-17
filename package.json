@@ -14,9 +14,9 @@
     "@tatumio/flow": "^2.2.18",
     "@tatumio/tatum": "^1.37.34",
     "@web-std/file": "^3.0.2",
+    "dotenv": "^16.3.1",
     "ethers": "^6.6.3",
     "moralis": "^2.22.4",
     "web3.storage": "^4.5.4"
   }
 }
-

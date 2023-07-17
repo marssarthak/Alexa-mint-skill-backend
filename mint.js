@@ -1,6 +1,8 @@
 import { Currency } from "@tatumio/api-client";
 import { TatumFlowSDK } from "@tatumio/flow";
 import Moralis from "moralis";
+import dotenv from "dotenv";
+dotenv.config();
 
 runSimulator();
 
@@ -12,8 +14,10 @@ async function runSimulator() {
     await mintSimulator(name, emailId, prompt);
 }
 
+const TatumApi = process.env["TATUM_API"];
+
 const flowSDK = TatumFlowSDK({
-    apiKey: "9cc803a5-5b4b-45f3-9181-e2481aa80116",
+    apiKey: TatumApi,
     testnet: true,
 });
 
@@ -28,16 +32,18 @@ export async function mintSimulator(name, emailId, prompt) {
 }
 
 async function sendMail(emailId, url, txHash) {
-    // send mail
+    let txUrl = `https://testnet.flowscan.org/transaction/${txHash}`
+
     let body = `There's a new NFT in your hand.
-                Check transaction hash : ${txHash}
-                ${url}`;
+    Check transaction hash : ${txUrl}
+    ${url}`;
+    // send mail
 }
 
 async function nftMint(metadata) {
-    const contractAddress = `9da6f73f-f4e2-4d81-bb2a-4cbb6e06fe56`;
-    const account = `0xbeb95c3ebdf285d1`;
-    const privateKey = `cf9a146a5272054918a731f1250243b6823f443bdb0a29149c33d218bd8b5d95`;
+    const contractAddress = process.env["TATUM_CONTRACT_ADDRESS"];
+    const account = process.env["TATUM_ACCOUNT"];
+    const privateKey = process.env["TATUM_PRIVATE_KEY"];
 
     const nftMinted = await flowSDK.nft.send.mintSignedTransaction({
         chain: Currency.FLOW,
@@ -56,9 +62,10 @@ async function nftMint(metadata) {
 }
 
 async function formURI(url) {
+    const MoralisApi = process.env["MORALIS_API"];
+
     await Moralis.start({
-        apiKey:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjZiNTdmMzlkLWYxY2QtNGRmMS1hNDFjLTM1ZWZiMmRmMWFlNiIsIm9yZ0lkIjoiMzQ4NjA4IiwidXNlcklkIjoiMzU4MzIyIiwidHlwZUlkIjoiM2JjOGQxNDYtY2ZhNS00ZTc5LTg3NWMtOGZhNTlhMGNkMGQyIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2ODk1ODQwODcsImV4cCI6NDg0NTM0NDA4N30.dCAe9U6mtebq1wnUPQXgB_wQ3mvh7qYLep7fGeuw7Ec",
+        apiKey: MoralisApi,
     });
 
     const uploadArray = [
@@ -81,13 +88,12 @@ async function formURI(url) {
 }
 
 async function createImage(name, emailId, prompt) {
-    let API_KEY = "bb_pr_7e5eb0cc69e41cc610d3896a3d76fb";
-    let YOUR_TEMPLATE_ID = "E9YaWrZM2dVw5nRd74";
-    let pfp =
-        "https://s4.anilist.co/file/anilistcdn/character/large/b33701-038IQUdpkIYC.jpg";
+    const BannerBearApi = process.env["BANNERBEAR_API"];
+    const templateId = process.env["BANNERBEAR_TEMPLATE_ID"];
+    const pfp = process.env["PFP_IMAGE"];
 
     let data = {
-        template: YOUR_TEMPLATE_ID,
+        template: templateId,
         modifications: [
             {
                 name: "background",
@@ -130,12 +136,11 @@ async function createImage(name, emailId, prompt) {
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
+            Authorization: `Bearer ${BannerBearApi}`,
         },
     });
 
     let res1 = await imageData.json();
-    // console.log(res1)
 
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     await delay(2500);
@@ -143,7 +148,7 @@ async function createImage(name, emailId, prompt) {
     let img = fetch(`https://api.bannerbear.com/v2/images/${res1.uid}`, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${API_KEY}`,
+            Authorization: `Bearer ${BannerBearApi}`,
         },
     });
 
