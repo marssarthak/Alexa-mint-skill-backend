@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import { mintSimulator } from "./mint.js";
 
+
+const PORT = process.env.PORT || 3030;
 const app = express();
 
 app.use(bodyParser.json());
@@ -32,8 +34,8 @@ app.post("/api", function(req, res) {
     });
 });
 
-const port = 5000;
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
 });
