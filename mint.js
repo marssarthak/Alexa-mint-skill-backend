@@ -37,7 +37,7 @@ export async function mintSimulator(name, emailId, prompt) {
 async function sendMail(emailId, imageUrl, txHash, name) {
     let txUrl = `https://testnet.flowscan.org/transaction/${txHash}`
 
-    SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
+    SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env["TATUM_PRIVATE_KEY"];
 
     new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
     {
