@@ -31,10 +31,10 @@ app.post("/api", function(req, res) {
         `message: "successfull",`
       );
     })
-    .catch(() => {
+    .catch((e) => {
       res
       .status(400)
-      .json({ message: "Unknown error." })
+      .json({ message: "Unknown error.", error: e })
     });
 });
 
