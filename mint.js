@@ -24,6 +24,12 @@ const flowSDK = TatumFlowSDK({
   testnet: true,
 });
 
+const MoralisApi = process.env["MORALIS_API"];
+
+Moralis.start({
+  apiKey: MoralisApi,
+});
+
 export async function mintSimulator(name, emailId, prompt) {
   try {
     const imageUrl = await createImage(name, emailId, prompt);
@@ -89,11 +95,6 @@ async function nftMint(metadata) {
 
 async function formURI(url) {
   try {
-    const MoralisApi = process.env["MORALIS_API"];
-
-    await Moralis.start({
-      apiKey: MoralisApi,
-    });
 
     const uploadArray = [
       {
