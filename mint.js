@@ -55,7 +55,7 @@ async function sendMail(emailId, imageUrl, txHash, name) {
       .sendTransacEmail({
         sender: { email: "glenxbuilders@gmail.com", name: "Sarthak Vaish" },
         to: [{ email: emailId, name: name }],
-        params: { nft_link: imageUrl, name: "Sarthak Singhal", txUrl: txUrl },
+        params: { nft_link: imageUrl, name: name, txUrl: txUrl },
         attachment: [{ url: imageUrl, name: "nft.png" }],
         templateId: 3,
       })

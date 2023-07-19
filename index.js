@@ -16,10 +16,10 @@ app.use(
 app.post("/api", function(req, res) {
   const body = req.body;
 
-  console.log(body)
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
 
   if (!body.name && !body.email && !body.prompt) {
-    console.log("damn");
     res
       .status(400)
       .json({ message: "Mandatory field: name, email, or body is missing. " })
