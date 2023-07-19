@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { mintSimulator } from "./mint.js";
+import cors from "cors"
 
 
 const PORT = process.env.PORT || 3030;
@@ -13,11 +14,13 @@ app.use(
   })
 );
 
+app.use(cors({
+  origin: '*'
+}));
+
+
 app.post("/api", function(req, res) {
   const body = req.body;
-
-  res.setHeader('Access-Control-Allow-Credentials', true)
-  res.setHeader('Access-Control-Allow-Origin', '*')
 
   if (!body.name && !body.email && !body.prompt) {
     res
